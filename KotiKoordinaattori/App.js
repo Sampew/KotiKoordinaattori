@@ -23,7 +23,6 @@ export default function App() {
             headerTitleStyle: {
               fontSize: 24,
               color: 'black',
-              textDecorationLine: 'underline',
             },
           }}
         />
