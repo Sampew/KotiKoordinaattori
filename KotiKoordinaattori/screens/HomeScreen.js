@@ -4,9 +4,9 @@ import {
   Text,
   StyleSheet,
   StatusBar,
-  Button,
   SafeAreaView,
   TouchableOpacity,
+  Dimensions,
 } from 'react-native';
 
 export default function HomeScreen() {
@@ -51,10 +51,15 @@ export default function HomeScreen() {
             </TouchableOpacity>
           </View>
         </View>
+        <Text style={styles.varausText}>Tulevat varaukset: </Text>
       </View>
-    </SafeAreaView>
+          </SafeAreaView>
+    
   );
 }
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
   container: {
@@ -69,6 +74,7 @@ const styles = StyleSheet.create({
   buttonGroup: {
     flexDirection: 'column',
     alignItems: 'flex-start',
+    height: windowHeight * 0.4,
   },
   buttonRow: {
     flexDirection: 'row',
@@ -82,11 +88,11 @@ const styles = StyleSheet.create({
   welcomeText: {
     fontSize: 24,
     color: 'cornflowerblue',
-    bottom: 150
+    bottom: windowHeight * 0.1,
   },
   customButton: {
     backgroundColor: 'cornflowerblue',
-    width: 200,
+    width: windowWidth * 0.4,
     height: 40,
     borderRadius: 5,
     marginRight: 10,
@@ -96,5 +102,11 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontWeight: 'bold',
-  }
+  },
+  varausText: {
+    fontSize: 24,
+    color: 'black',
+    bottom: windowHeight * 0.2 + 50,
+    right: windowWidth * 0.2 - 5,
+  },
 });
