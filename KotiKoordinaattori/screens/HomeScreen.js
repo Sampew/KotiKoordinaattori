@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import {
   View,
   Text,
@@ -11,7 +11,8 @@ import {
 
 export default function HomeScreen() {
     const navigation = useNavigation();
-
+    const route = useRoute();
+    const { confirmedReservations } = route.params || { confirmedReservations: [] };
     const saunaScreen = () => {
         navigation.navigate('Saunavuoro'); 
       };
@@ -49,12 +50,22 @@ export default function HomeScreen() {
             <TouchableOpacity style={styles.customButton} onPress={vahinkoScreen}>
               <Text style={styles.buttonText}>TEE VAHINKOILMOITUS</Text>
             </TouchableOpacity>
-          </View>
+            </View>
         </View>
-        <Text style={styles.varausText}>Tulevat varaukset: </Text>
+        <Text style={styles.varausText}>Tulevat varaukset:</Text>
+        <View style={styles.reservationContainer}>
+          {confirmedReservations.length > 0 ? (
+            confirmedReservations.map((reservation, index) => (
+              <Text key={index} style={styles.reservationText}>
+              `{reservation.date} {reservation.time}`
+              </Text>
+            ))
+          ) : (
+            <Text style={styles.noReservationsText}>ei varattuja vuoroja</Text>
+          )}
+        </View>
       </View>
-          </SafeAreaView>
-    
+    </SafeAreaView>
   );
 }
 
@@ -82,9 +93,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     margin: 5,
   },
-  buttonSeparator: {
-    width: 10,
-  },
   welcomeText: {
     fontSize: 24,
     color: 'cornflowerblue',
@@ -108,5 +116,25 @@ const styles = StyleSheet.create({
     color: 'black',
     bottom: windowHeight * 0.2 + 50,
     right: windowWidth * 0.2 - 5,
+    marginBottom: 10,
+  },
+  reservationContainer: {
+    backgroundColor: 'white',
+    padding: 10,
+    borderRadius: 5,
+    width: windowWidth * 0.8,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
+  reservationText: {
+    backgroundColor: 'white',
+    padding: 10,
+    marginVertical: 5,
+    fontSize: 16,
+    color: 'black',
+  },
+  noReservationsText: {
+    fontSize: 16,
+    color: 'red',
   },
 });
