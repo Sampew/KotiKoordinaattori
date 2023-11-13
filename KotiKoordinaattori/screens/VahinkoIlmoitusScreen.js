@@ -1,13 +1,26 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import {Alert,Button, SafeAreaView, TextInput,View, Text, StyleSheet, Dimensions } from 'react-native';
 
 export default function VahinkoIlmoitusScreen() {
+
+  const [text, onChangeText] = React.useState('');
+  const sendAlert = () => {
+    Alert.alert('Vahinkoilmoitus', 'Lähetetty');
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Vahinko Screen</Text>
-      <View style={styles.content}>
-        <Text>Vahinkoilmoitus sisältö.</Text>
-      </View>
+      <Text style={styles.title}>Tee vahinkoilmoitus</Text>
+      <SafeAreaView>
+        < TextInput
+          style={styles.input}
+          multiline={true}
+          numberOfLines={20}
+          onChangeText={onChangeText}
+          value={text}
+        />
+      </SafeAreaView>
+      <Button title={'Lähetä'} onPress={sendAlert} />
     </View>
   );
 }
@@ -27,4 +40,13 @@ const styles = StyleSheet.create({
   content: {
     alignItems: 'center',
   },
+  input: {
+    height: 500,
+    width: 400,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+    backgroundColor: 'white',
+    textAlignVertical: 'top'
+  }
 });
