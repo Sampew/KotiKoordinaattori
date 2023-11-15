@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, {useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import {Alert,TouchableOpacity, SafeAreaView, TextInput,View, Text, StyleSheet, Keyboard, ScrollView } from 'react-native';
 import emailjs from '@emailjs/browser';
+
 
 
 export default function VahinkoIlmoitusScreen() {
@@ -8,6 +10,12 @@ export default function VahinkoIlmoitusScreen() {
   const [user_name, setUserName] = useState('');
   const [user_email, setUserEmail] = useState('');
   const [message, setMessage] = useState('');
+  const navigation = useNavigation();
+
+  //Navigate to homepage
+  const homeScreen = () => {
+    navigation.navigate('KotiKoordinaattori');
+  };
 
   //Alert the user that the mail is sent
   const sendAlert = () => {
@@ -47,6 +55,7 @@ export default function VahinkoIlmoitusScreen() {
       .then((result) => {
         console.log(result);
         sendAlert();
+        homeScreen();
       })
       .catch((error) => {
         console.log(error);
