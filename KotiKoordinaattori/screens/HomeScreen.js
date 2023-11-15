@@ -11,7 +11,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { getDocs, collection } from 'firebase/firestore';
-import { firestore } from '../firebase/Config';
+import { firestore } from '../Firebase/Config';
 
 export default function HomeScreen() {
   const navigation = useNavigation();
