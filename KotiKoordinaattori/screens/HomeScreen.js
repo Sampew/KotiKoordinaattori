@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Dimensions,
+  ActivityIndicator,
 } from 'react-native';
 import { getDocs, collection } from 'firebase/firestore';
 import { firestore } from '../firebase/Config';
@@ -26,8 +27,8 @@ export default function HomeScreen() {
       const reservationsData = [];
 
       reservationsQuery.forEach((doc) => {
-        const data = doc.id; 
-        reservationsData.push(data || [])
+        const data = doc.id;
+        reservationsData.push(data || []);
       });
 
       setReservations(reservationsData);
@@ -84,12 +85,12 @@ export default function HomeScreen() {
         <Text style={styles.varausText}>Tulevat varaukset:</Text>
         <View style={styles.reservationContainer}>
           {loading ? (
-            <Text>Loading...</Text>
+            <ActivityIndicator size="small" color="black" />
           ) : reservations.length > 0 ? (
             reservations.map((reservation, index) => (
-              <Text key={index} style={styles.reservationText}>
-                {reservation}
-              </Text>
+              <View key={index} style={styles.reservationItem}>
+                <Text style={styles.reservationText}>{reservation}</Text>
+              </View>
             ))
           ) : (
             <Text style={styles.noReservationsText}>ei varattuja vuoroja</Text>
@@ -149,14 +150,7 @@ const styles = StyleSheet.create({
     right: windowWidth * 0.2 - 5,
     marginBottom: 10,
   },
-  reservationContainer: {
-    backgroundColor: 'white',
-    padding: 10,
-    borderRadius: 5,
-    width: windowWidth * 0.8,
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-  },
+
   reservationText: {
     backgroundColor: 'white',
     padding: 10,
@@ -167,5 +161,11 @@ const styles = StyleSheet.create({
   noReservationsText: {
     fontSize: 16,
     color: 'red',
+
+  },
+  reservationItem: {
+    backgroundColor: 'lightgray',
+    borderRadius: 5,
+    marginBottom: 10,
   },
 });

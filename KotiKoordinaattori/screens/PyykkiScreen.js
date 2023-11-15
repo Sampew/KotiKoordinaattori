@@ -13,29 +13,24 @@ export default function PyykkiScreen() {
   const [confirmedReservations, setConfirmedReservations] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  
 // Function to fetch reserved and available dates from Firestore
 const fetchReservedDates = async () => {
   try {
     const reservationsCollection = collection(firestore, 'reservations');
     const reservationsQuery = await getDocs(reservationsCollection);
     const reservedDatesData = {};
-
+    
+    
     reservationsQuery.forEach((doc) => {
       const date = doc.id; // Assuming the date is stored as the document ID
       const reservations = doc.data().reservations || [];
-
-      reservedDatesData[date] = {
-        marked: true,
-        dotColor: 'red', // Reserved dates have a red dot
-        reservations,
-      };
     });
 
     // Fetch available dates
     const availableReservationsCollection = collection(firestore, 'availableReservations');
     const availableReservationsQuery = await getDocs(availableReservationsCollection);
-
+    
     availableReservationsQuery.forEach((doc) => {
       const data = doc.id;
       const parts = data.split(' ');
@@ -47,20 +42,20 @@ const fetchReservedDates = async () => {
           dotColor: 'green', // Available dates have a green dot
         };
       }
+      fullInfo.push(data)
     });
     setReservedDates(reservedDatesData);
   } catch (error) {
     console.error('Error fetching:', error);
   }
 };
-
 useEffect(() => {
   fetchReservedDates();
 }, []); // Fetch reserved and available dates on component mount
 
 const handleDayPress = (day) => {
   const selectedDay = reservedDates[day.dateString];
-
+  
   setSelectedDate(day.dateString);
   setSelectedReservations(
     selectedDay
@@ -89,11 +84,12 @@ const handleDayPress = (day) => {
     updatedReservations[index].checked = !updatedReservations[index].checked;
     setSelectedReservations(updatedReservations);
   };
-
+ 
   const handleConfirmReservation = async () => {
+    console.log(fullInfo)
     if (reservedDates[selectedDate] && reservedDates[selectedDate].dotColor === 'green') {
       // Add the confirmed reservation to Firestore
-      const reservationRef = doc(firestore, 'reservations', selectedDate); // Use the appropriate collection path
+      const reservationRef = doc(firestore, 'reservations', fullInfo[0].toString()); // Use the appropriate collection path
       const reservationDoc = await getDoc(reservationRef);
   
       if (reservationDoc.exists()) {
@@ -106,7 +102,7 @@ const handleDayPress = (day) => {
         await setDoc(reservationRef, { reservations: selectedReservations.map((reservation) => reservation.time) });
       }
   
-      const availableReservationsRef = doc(firestore, 'availableReservations', selectedDate);
+      const availableReservationsRef = doc(firestore, 'availableReservations', fullInfo[0].toString());
       await deleteDoc(availableReservationsRef);
 
       // Update local state
@@ -120,7 +116,6 @@ const handleDayPress = (day) => {
     }
   };
   
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Pyykki Screen</Text>
@@ -128,7 +123,7 @@ const handleDayPress = (day) => {
         <Calendar onDayPress={handleDayPress} markedDates={reservedDates} />
         {selectedDate && (
           <View style={styles.selectedDateContainer}>
-            <Text style={styles.selectedDateText}>{`Avoimet vuorot ${selectedDate}:`}</Text>
+            <Text style={styles.selectedDateText}>{`Avoimet vuorot:\n${selectedDate}`}</Text>
             {selectedReservations.length > 0 ? (
               selectedReservations.map((reservation, index) => (
                 <View key={index} style={styles.reservationRow}>
@@ -137,7 +132,6 @@ const handleDayPress = (day) => {
                     onValueChange={() => handleCheckboxToggle(index)}
                     style={styles.checkbox}
                   />
-                  <Text style={styles.reservationText}>{reservation.time}</Text>
                 </View>
               ))
             ) : (
@@ -158,7 +152,7 @@ const handleDayPress = (day) => {
     </View>
   );
 }
-
+const fullInfo = [];
 const styles = StyleSheet.create({
   container: {
     flex: 1,
