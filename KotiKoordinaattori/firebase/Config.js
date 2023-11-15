@@ -1,10 +1,21 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import {getFirestore, collection, addDoc, serverTimestamp, querySnapshot} from 'firebase/firestore';
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import {
+  getFirestore, 
+  collection, 
+  addDoc, 
+  serverTimestamp, 
+  querySnapshot,
+  getDoc,
+  query, 
+  onSnapshot, 
+  orderBy, 
+  deleteDoc, 
+  doc, 
+  getDocs, 
+  setDoc, 
+  updateDoc 
+} from 'firebase/firestore';
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyAb43SGmyS_Pcr2mOdYO29E6YG4vQYCtyw",
   authDomain: "saunavuoro-app.firebaseapp.com",
@@ -14,7 +25,6 @@ const firebaseConfig = {
   appId: "1:581701194428:web:afcaf88ae8f2d2122f36b9"
 };
 
-// Initialize Firebase
 initializeApp(firebaseConfig);
 
 const firestore = getFirestore();
@@ -26,5 +36,14 @@ export {
     collection,
     addDoc,
     serverTimestamp,
-    MESSAGES
+    MESSAGES,
+    getDoc,
+    query, 
+    onSnapshot, 
+    orderBy, 
+    deleteDoc, 
+    doc,
+    getDocs,
+    setDoc,
+    updateDoc
 };

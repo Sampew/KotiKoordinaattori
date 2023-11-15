@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import { View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import CheckBox from 'expo-checkbox'
 import { Calendar } from 'react-native-calendars';
-import { firestore, collection, addDoc, getDoc, query, onSnapshot, orderBy, deleteDoc, doc, getDocs, setDoc,updateDoc } from '../firebase/Config';
+import { firestore, collection, addDoc, getDoc, query, onSnapshot, orderBy, deleteDoc, doc, getDocs, setDoc,updateDoc } from '../Firebase/Config';
 
 export default function PyykkiScreen() {
   const navigation = useNavigation();
@@ -14,20 +14,18 @@ export default function PyykkiScreen() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   
-// Function to fetch reserved and available dates from Firestore
+
 const fetchReservedDates = async () => {
   try {
     const reservationsCollection = collection(firestore, 'reservations');
     const reservationsQuery = await getDocs(reservationsCollection);
     const reservedDatesData = {};
     
-    
     reservationsQuery.forEach((doc) => {
-      const date = doc.id; // Assuming the date is stored as the document ID
+      const date = doc.id; 
       const reservations = doc.data().reservations || [];
     });
 
-    // Fetch available dates
     const availableReservationsCollection = collection(firestore, 'availableReservations');
     const availableReservationsQuery = await getDocs(availableReservationsCollection);
     
@@ -39,7 +37,7 @@ const fetchReservedDates = async () => {
       if (!reservedDatesData[date]) {
         reservedDatesData[date] = {
           marked: true,
-          dotColor: 'green', // Available dates have a green dot
+          dotColor: 'green', 
         };
       }
       fullInfo.push(data)
@@ -51,7 +49,7 @@ const fetchReservedDates = async () => {
 };
 useEffect(() => {
   fetchReservedDates();
-}, []); // Fetch reserved and available dates on component mount
+}, []); 
 
 const handleDayPress = (day) => {
   const selectedDay = reservedDates[day.dateString];
@@ -88,26 +86,22 @@ const handleDayPress = (day) => {
   const handleConfirmReservation = async () => {
     console.log(fullInfo)
     if (reservedDates[selectedDate] && reservedDates[selectedDate].dotColor === 'green') {
-      // Add the confirmed reservation to Firestore
       const reservationRef = doc(firestore, 'reservations', fullInfo[0].toString()); // Use the appropriate collection path
       const reservationDoc = await getDoc(reservationRef);
   
       if (reservationDoc.exists()) {
-        // Update existing reservations
         await updateDoc(reservationRef, {
           reservations: [...reservationDoc.data().reservations, ...selectedReservations.map((reservation) => reservation.time)],
         });
       } else {
-        // Create a new document for the date
         await setDoc(reservationRef, { reservations: selectedReservations.map((reservation) => reservation.time) });
       }
   
       const availableReservationsRef = doc(firestore, 'availableReservations', fullInfo[0].toString());
       await deleteDoc(availableReservationsRef);
-
-      // Update local state
+     
       setConfirmedReservations((prevReservations) => [...prevReservations, ...selectedReservations]);
-      setSelectedReservations([]); // Clear selected reservations
+      setSelectedReservations([]); 
   
       alert('Vuoro varattu');
       navigation.navigate('KotiKoordinaattori', { confirmedReservations });
