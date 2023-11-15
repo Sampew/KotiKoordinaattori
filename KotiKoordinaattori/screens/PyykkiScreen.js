@@ -3,7 +3,9 @@ import { useNavigation } from '@react-navigation/native';
 import { View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import CheckBox from 'expo-checkbox'
 import { Calendar } from 'react-native-calendars';
-import { firestore, collection, addDoc, getDoc, query, onSnapshot, orderBy, deleteDoc, doc, getDocs, setDoc,updateDoc } from '../firebase/Config';
+import { firestore, addDoc, getDoc, query, onSnapshot, orderBy, deleteDoc, doc, setDoc,updateDoc } from '../Firebase/Config';
+import {getDocs, collection} from 'firebase/firestore';
+
 
 export default function PyykkiScreen() {
   const navigation = useNavigation();
