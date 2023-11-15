@@ -152,7 +152,9 @@ const handleDayPress = (day) => {
     </View>
   );
 }
+
 const fullInfo = [];
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
