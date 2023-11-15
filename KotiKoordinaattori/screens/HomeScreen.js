@@ -1,4 +1,5 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -8,32 +9,60 @@ import {
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
+import { getDocs, collection } from 'firebase/firestore';
+import { firestore } from '../firebase/Config';
 
 export default function HomeScreen() {
-    const navigation = useNavigation();
-    const route = useRoute();
-    const { confirmedReservations } = route.params || { confirmedReservations: [] };
-    const saunaScreen = () => {
-        navigation.navigate('Saunavuoro'); 
-      };
+  const navigation = useNavigation();
+  const route = useRoute();
+  const { confirmedReservations } = route.params || { confirmedReservations: [] };
+  const [reservations, setReservations] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-      const vahinkoScreen = () => {
-        navigation.navigate('VahinkoIlmoitusTaulu'); 
-      };
+  const fetchReservations = async () => {
+    try {
+      const reservationsCollection = collection(firestore, 'reservations');
+      const reservationsQuery = await getDocs(reservationsCollection);
+      const reservationsData = [];
 
-      const pyykkiScreen = () => {
-        navigation.navigate('PyykkiVaraus'); 
-      };
+      reservationsQuery.forEach((doc) => {
+        const data = doc.id; 
+        reservationsData.push(data || [])
+      });
 
-      const ilmoitusScreen = () => {
-        navigation.navigate('IlmoitusTaulu'); 
-      };
+      setReservations(reservationsData);
+    } catch (error) {
+      console.error('Error fetching reservations:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchReservations();
+  }, []);
+
+  const saunaScreen = () => {
+    navigation.navigate('Saunavuoro');
+  };
+
+  const vahinkoScreen = () => {
+    navigation.navigate('VahinkoIlmoitusTaulu');
+  };
+
+  const pyykkiScreen = () => {
+    navigation.navigate('PyykkiVaraus');
+  };
+
+  const ilmoitusScreen = () => {
+    navigation.navigate('IlmoitusTaulu');
+  };
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
       <View style={styles.mainContent}>
-        <Text style={styles.welcomeText}>Tervetuloa KotiKoordinaattoriin</Text>      
+        <Text style={styles.welcomeText}>Tervetuloa KotiKoordinaattoriin</Text>
         <View style={styles.buttonGroup}>
           <View style={styles.buttonRow}>
             <TouchableOpacity style={styles.customButton} onPress={saunaScreen}>
@@ -42,22 +71,24 @@ export default function HomeScreen() {
             <TouchableOpacity style={styles.customButton} onPress={ilmoitusScreen}>
               <Text style={styles.buttonText}>ILMOITUSTAULU</Text>
             </TouchableOpacity>
-            </View>
-            <View style={styles.buttonRow}>
+          </View>
+          <View style={styles.buttonRow}>
             <TouchableOpacity style={styles.customButton} onPress={pyykkiScreen}>
               <Text style={styles.buttonText}>VARAA PYYKKIVUORO</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.customButton} onPress={vahinkoScreen}>
               <Text style={styles.buttonText}>TEE VAHINKOILMOITUS</Text>
             </TouchableOpacity>
-            </View>
+          </View>
         </View>
         <Text style={styles.varausText}>Tulevat varaukset:</Text>
         <View style={styles.reservationContainer}>
-          {confirmedReservations.length > 0 ? (
-            confirmedReservations.map((reservation, index) => (
+          {loading ? (
+            <Text>Loading...</Text>
+          ) : reservations.length > 0 ? (
+            reservations.map((reservation, index) => (
               <Text key={index} style={styles.reservationText}>
-              `{reservation.date} {reservation.time}`
+                {reservation}
               </Text>
             ))
           ) : (

@@ -1,34 +1,88 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import CheckBox from 'expo-checkbox'
-import { Calendar, LocaleConfig } from 'react-native-calendars';
-
-LocaleConfig.locales['fi'] = {
-  monthNames: ['Tammikuu', 'Helmikuu', 'Maaliskuu', 'Huhtikuu', 'Toukokuu', 'Kesäkuu', 'Heinäkuu', 'Elokuu', 'Syyskuu', 'Lokakuu', 'Marraskuu', 'Joulukuu'],
-  monthNamesShort: ['Tammi', 'Helmi', 'Maalis', 'Huhti', 'Touko', 'Kesä', 'Heinä', 'Elo', 'Syys', 'Loka', 'Marras', 'Joulu'],
-  dayNames: ['Sunnuntai', 'Maanantai', 'Tiistai', 'Keskiviikko', 'Torstai', 'Perjantai', 'Lauantai'],
-  dayNamesShort: ['Su', 'Ma', 'Ti', 'Ke', 'To', 'Pe', 'La'],
-};
-
-LocaleConfig.defaultLocale = 'fi';
+import { Calendar } from 'react-native-calendars';
+import { firestore, collection, addDoc, getDoc, query, onSnapshot, orderBy, deleteDoc, doc, getDocs, setDoc,updateDoc } from '../firebase/Config';
 
 export default function PyykkiScreen() {
   const navigation = useNavigation();
-  const [reservedDates, setReservedDates] = useState({
-    '2023-11-10': { marked: true, dotColor: 'red', selected: true, selectedColor: 'blue', reservations: ['09:00', '13:00'] },
-    '2023-11-15': { marked: true, dotColor: 'red', reservations: ['10:00', '14:00'] },
-  });
+  const [reservedDates, setReservedDates] = useState({});
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedReservations, setSelectedReservations] = useState([]);
   const [confirmedReservations, setConfirmedReservations] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const handleDayPress = (day) => {
-    const selectedDay = reservedDates[day.dateString];
+// Function to fetch reserved and available dates from Firestore
+const fetchReservedDates = async () => {
+  try {
+    const reservationsCollection = collection(firestore, 'reservations');
+    const reservationsQuery = await getDocs(reservationsCollection);
+    const reservedDatesData = {};
 
-    setSelectedDate(day.dateString);
-    setSelectedReservations(selectedDay ? selectedDay.reservations.map((time) => ({ time, checked: false })) : []);
-  };
+    reservationsQuery.forEach((doc) => {
+      const date = doc.id; // Assuming the date is stored as the document ID
+      const reservations = doc.data().reservations || [];
+
+      reservedDatesData[date] = {
+        marked: true,
+        dotColor: 'red', // Reserved dates have a red dot
+        reservations,
+      };
+    });
+
+    // Fetch available dates
+    const availableReservationsCollection = collection(firestore, 'availableReservations');
+    const availableReservationsQuery = await getDocs(availableReservationsCollection);
+
+    availableReservationsQuery.forEach((doc) => {
+      const data = doc.id;
+      const parts = data.split(' ');
+      const date = parts[0];
+      console.log(date)
+      if (!reservedDatesData[date]) {
+        reservedDatesData[date] = {
+          marked: true,
+          dotColor: 'green', // Available dates have a green dot
+        };
+      }
+    });
+    setReservedDates(reservedDatesData);
+  } catch (error) {
+    console.error('Error fetching:', error);
+  }
+};
+
+useEffect(() => {
+  fetchReservedDates();
+}, []); // Fetch reserved and available dates on component mount
+
+const handleDayPress = (day) => {
+  const selectedDay = reservedDates[day.dateString];
+
+  setSelectedDate(day.dateString);
+  setSelectedReservations(
+    selectedDay
+      ? (selectedDay.reservations || []).map((time) => ({ time, checked: false }))
+      : []
+  );
+};
+
+{selectedReservations.length > 0 ? (
+  selectedReservations.map((reservation, index) => (
+    <View key={index} style={styles.reservationRow}>
+      <CheckBox
+        value={reservation.checked}
+        onValueChange={() => handleCheckboxToggle(index)}
+        style={styles.checkbox}
+      />
+      <Text style={styles.reservationText}>{reservation.time}</Text>
+    </View>
+  ))
+) : (
+  <Text style={styles.noReservationsText}>Ei vapaita vuoroja.</Text>
+)}
 
   const handleCheckboxToggle = (index) => {
     const updatedReservations = [...selectedReservations];
@@ -36,19 +90,36 @@ export default function PyykkiScreen() {
     setSelectedReservations(updatedReservations);
   };
 
-  const handleConfirmReservation = () => {
-    const confirmedTimes = selectedReservations
-      .filter((reservation) => reservation.checked)
-      .map((reservation) => ({
-        date: selectedDate,
-        time: reservation.time,
-      }));
+  const handleConfirmReservation = async () => {
+    if (reservedDates[selectedDate] && reservedDates[selectedDate].dotColor === 'green') {
+      // Add the confirmed reservation to Firestore
+      const reservationRef = doc(firestore, 'reservations', selectedDate); // Use the appropriate collection path
+      const reservationDoc = await getDoc(reservationRef);
+  
+      if (reservationDoc.exists()) {
+        // Update existing reservations
+        await updateDoc(reservationRef, {
+          reservations: [...reservationDoc.data().reservations, ...selectedReservations.map((reservation) => reservation.time)],
+        });
+      } else {
+        // Create a new document for the date
+        await setDoc(reservationRef, { reservations: selectedReservations.map((reservation) => reservation.time) });
+      }
+  
+      const availableReservationsRef = doc(firestore, 'availableReservations', selectedDate);
+      await deleteDoc(availableReservationsRef);
 
-    setConfirmedReservations(confirmedTimes);
-    console.log('Varattu aika:', confirmedTimes);
-    alert('Vuoro varattu')
-    navigation.navigate('KotiKoordinaattori', { confirmedReservations: confirmedTimes });
+      // Update local state
+      setConfirmedReservations((prevReservations) => [...prevReservations, ...selectedReservations]);
+      setSelectedReservations([]); // Clear selected reservations
+  
+      alert('Vuoro varattu');
+      navigation.navigate('KotiKoordinaattori', { confirmedReservations });
+    } else {
+      alert('Ei vapaita vuoroja kyseiselle päivälle.');
+    }
   };
+  
 
   return (
     <View style={styles.container}>
@@ -70,11 +141,17 @@ export default function PyykkiScreen() {
                 </View>
               ))
             ) : (
-              <Text style={styles.noReservationsText}>Ei vapaita vuoroja.</Text>
+              <>
+                <Text style={styles.noReservationsText}>
+                  {reservedDates[selectedDate]?.dotColor === 'green' ? 'Vapaa vuoro' : 'Ei vapaita vuoroja.'}
+                </Text>
+                {reservedDates[selectedDate]?.dotColor === 'green' && (
+                  <TouchableOpacity style={styles.confirmButton} onPress={handleConfirmReservation}>
+                    <Text style={styles.confirmButtonText}>VAHVISTA VARAUS</Text>
+                  </TouchableOpacity>
+                )}
+              </>
             )}
-            <TouchableOpacity style={styles.confirmButton} onPress={handleConfirmReservation}>
-              <Text style={styles.confirmButtonText}>VAHVISTA VARAUS</Text>
-            </TouchableOpacity>
           </View>
         )}
       </View>
