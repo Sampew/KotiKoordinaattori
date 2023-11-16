@@ -3,8 +3,8 @@ import { Button, ScrollView, StyleSheet, Text, TextInput, View, SafeAreaView } f
 import { firestore, collection, addDoc,serverTimestamp, MESSAGES } from '../Firebase/Config';
 import { useEffect, useState } from 'react';
 import { querySnapshot, onSnapshot, query, orderBy } from 'firebase/firestore';
-import Constants from 'expo-constants';
 import { convertFirebaseTimeStampToJS } from '../helpers/Functions';
+import styles from '../components/AppStyles';
 
 export default function IlmoitusTauluScreen() {
   const [messages, setMessages] = useState([])
@@ -61,25 +61,3 @@ export default function IlmoitusTauluScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    paddingTop: Constants.statusBarHeight,
-    flex : 1,
-    backgroundcolor: "fff"
-  },
-  message:
-  {
-    padding: 10,
-    marginTop: 10,
-    marginBottom : 10,
-    backgroundColor: "f5f5f5",
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 5,
-    marginLeft: 10,
-    marginRight: 10,
-  },
-  messageInfo: {
-    fontSize: 12
-  }
-});

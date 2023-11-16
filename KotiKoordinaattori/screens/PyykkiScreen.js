@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import { View, Text, TouchableOpacity} from 'react-native';
 import CheckBox from 'expo-checkbox'
 import { Calendar } from 'react-native-calendars';
 import { firestore, collection, addDoc, getDoc, query, onSnapshot, orderBy, deleteDoc, doc, getDocs, setDoc,updateDoc } from '../Firebase/Config';
+import styles from '../components/AppStyles';
 
 export default function PyykkiScreen() {
   const navigation = useNavigation();
@@ -169,63 +170,4 @@ return (
   
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'lightgray',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  content: {
-    alignItems: 'center',
-  },
-  selectedDateContainer: {
-    marginTop: 20,
-    alignItems: 'center',
-  },
-  selectedDateText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  reservationRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 5,
-  },
-  checkbox: {
-    marginRight: 10,
-  },
-  reservationText: {
-    fontSize: 16,
-  },
-  confirmButton: {
-    backgroundColor: 'lightblue',
-    padding: 10,
-    borderRadius: 5,
-    marginTop: 10,
-  },
-  confirmButtonText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  noReservationsText: {
-    fontSize: 16,
-    marginTop: 10,
-  },
-  similarDaysText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginTop: 10,
-  },
-  similarDayItem: {
-    fontSize: 16,
-    color: 'black', // You can customize the color
-    marginLeft: 20, // Adjust the margin as needed
-  },
-});
+
