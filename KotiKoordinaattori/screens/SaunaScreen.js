@@ -1,5 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text,  } from 'react-native';
+import styles from '../components/AppStyles';
+
 
 export default function SaunaScreen() {
   return (
@@ -12,19 +14,4 @@ export default function SaunaScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'lightgray', 
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  content: {
-    alignItems: 'center',
-  },
-});
+

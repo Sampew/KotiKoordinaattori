@@ -1,7 +1,8 @@
 import React, {useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import {Alert,TouchableOpacity, SafeAreaView, TextInput,View, Text, StyleSheet, Keyboard, ScrollView } from 'react-native';
+import {Alert,TouchableOpacity, SafeAreaView, TextInput,View, Text, Keyboard, ScrollView } from 'react-native';
 import emailjs from '@emailjs/browser';
+import styles from '../components/AppStyles';
 
 
 
@@ -98,54 +99,4 @@ export default function VahinkoIlmoitusScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  inputContainer: {
-    width: '80%',
-    alignSelf: 'center',
-  },
-  inputRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 10,
-  },
-  inputField: {
-    flex: 1,
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    paddingHorizontal: 10,
-    marginBottom: 10,
-  },
-  messageInput: {
-    textAlignVertical: 'top',
-    padding: 10,
-    paddingTop: 10,
-    alignSelf: 'center',
-    borderColor: 'gray',
-    borderWidth: 1,
-    height: '50%',
-    width: '100%',
-    margin: 12,
-    borderWidth: 1,
-  },
-  button: {
-    backgroundColor: 'blue',
-    padding: 10,
-    borderRadius: 5,
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 16,
-  },
-});
+

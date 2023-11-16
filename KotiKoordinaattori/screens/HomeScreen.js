@@ -1,15 +1,6 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  StatusBar,
-  SafeAreaView,
-  TouchableOpacity,
-  Dimensions,
-  ActivityIndicator,
-} from 'react-native';
+import {View, Text, StyleSheet, StatusBar, SafeAreaView, TouchableOpacity, Dimensions, ActivityIndicator} from 'react-native';
 import { getDocs, collection } from 'firebase/firestore';
 import { firestore } from '../Firebase/Config';
 
@@ -101,6 +92,8 @@ export default function HomeScreen() {
   );
 }
 
+//miksi pitää mitata width ja height näin ? 
+
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
@@ -146,7 +139,7 @@ const styles = StyleSheet.create({
   varausText: {
     fontSize: 24,
     color: 'black',
-    bottom: windowHeight * 0.2 + 50,
+    bottom: windowHeight * 0.2 + 50, // IDEA, suoraa jos tähä laittais arvot ja heittäis appstyles komponentille ? 
     right: windowWidth * 0.2 - 5,
     marginBottom: 10,
   },
