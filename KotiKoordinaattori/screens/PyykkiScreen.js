@@ -111,7 +111,6 @@ export default function PyykkiScreen() {
     }
   };
 
-  // Inside the handleDayPress function
 const handleDayPress = (day) => {
   const selectedDay = reservedDates[day.dateString];
   setSelectedDate(day.dateString);
@@ -133,7 +132,6 @@ const handleDayPress = (day) => {
   }
 };
 
-// Inside the return statement
 return (
   <View style={styles.container}>
     <Text style={styles.title}>Pyykki Screen</Text>
