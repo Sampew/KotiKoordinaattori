@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import { View, Text, TouchableOpacity} from 'react-native';
 import CheckBox from 'expo-checkbox'
 import { Calendar } from 'react-native-calendars';
-import { firestore, collection, addDoc, getDoc, query, onSnapshot, orderBy, deleteDoc, doc, getDocs, setDoc,updateDoc } from '../Firebase/Config';
+import { firestore, collection, getDoc, deleteDoc, doc, getDocs, setDoc,updateDoc } from '../Firebase/Config';
 import styles from '../components/AppStyles';
 
 export default function SaunaScreen() {
@@ -18,33 +18,19 @@ export default function SaunaScreen() {
   const [getType, setType] = useState([]);
   const [getTypeNro, setTypeNro] = useState([]);
 
-  const fetchReservedDates = async () => {
+  const fetchAvailableDates = async () => {
     try {
-      const reservationsCollection = collection(firestore, 'reservations');
-      const reservationsQuery = await getDocs(reservationsCollection);
       const reservedDatesData = {};
-
-      reservationsQuery.forEach((doc) => {
-        const date = doc.id;
-        const reservations = doc.data().reservations || [];
-      });
-
       const availableReservationsCollection = collection(firestore, 'availableSaunaReservations');
       const availableReservationsQuery = await getDocs(availableReservationsCollection);
-
       const localFullInfo = []; 
 
       availableReservationsQuery.forEach((doc) => {
         const data = doc.id;
         const parts = data.split(' ');
         const date = parts[0];
-        const time = parts[1];
         const type = parts[2];
         const typeNro = parts[3];
-        console.log(date)
-        console.log(time)
-        console.log(type)
-        console.log(typeNro)
         setType(type)
         setTypeNro(typeNro)
         if (!reservedDatesData[date]) {
@@ -63,7 +49,7 @@ export default function SaunaScreen() {
     }
   };
   useEffect(() => {
-    fetchReservedDates();
+    fetchAvailableDates();
   }, []);
 
   const handleCheckboxToggle = (time) => {
