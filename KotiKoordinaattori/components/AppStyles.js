@@ -56,8 +56,8 @@ const styles = StyleSheet.create({
     },
     similarDayItem: {
       fontSize: 16,
-      color: 'black', // You can customize the color
-      marginLeft: 20, // Adjust the margin as needed
+      color: 'black', 
+      marginLeft: 20, 
     },
     container: {
       paddingTop: Constants.statusBarHeight,
