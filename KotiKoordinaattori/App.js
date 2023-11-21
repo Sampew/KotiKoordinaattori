@@ -6,6 +6,7 @@ import SaunavuoroScreen from './screens/SaunaScreen';
 import IlmoitusTauluScreen from './screens/IlmoitusTauluScreen';
 import PyykkiScreen from './screens/PyykkiScreen';
 import VahinkoIlmoitusScreen from './screens/VahinkoIlmoitusScreen';
+import SahkoScreen from './screens/SahkoScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -54,6 +55,15 @@ export default function App() {
             },
           }}/>
         <Stack.Screen name="VahinkoIlmoitusTaulu" component={VahinkoIlmoitusScreen} options={{
+            headerStyle: {
+              backgroundColor: 'cornflowerblue',
+            },
+            headerTitleStyle: {
+              fontSize: 24,
+              color: 'black',
+            },
+          }}/>
+          <Stack.Screen name="PorssiSahko" component={SahkoScreen} options={{
             headerStyle: {
               backgroundColor: 'cornflowerblue',
             },
