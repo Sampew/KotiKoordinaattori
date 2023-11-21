@@ -50,6 +50,10 @@ export default function HomeScreen() {
     navigation.navigate('IlmoitusTaulu');
   };
 
+  const sahkoScreen = () => {
+    navigation.navigate('PorssiSahko');
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
@@ -70,6 +74,11 @@ export default function HomeScreen() {
             </TouchableOpacity>
             <TouchableOpacity style={styles.customButton} onPress={vahinkoScreen}>
               <Text style={styles.buttonText}>TEE VAHINKOILMOITUS</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.buttonRow}>
+          <TouchableOpacity style={styles.customButton} onPress={sahkoScreen}>
+              <Text style={styles.buttonText}>PÖRSSISÄHKÖN HINTA</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -139,7 +148,7 @@ const styles = StyleSheet.create({
   varausText: {
     fontSize: 24,
     color: 'black',
-    bottom: windowHeight * 0.2 + 50, // IDEA, suoraa jos tähä laittais arvot ja heittäis appstyles komponentille ? 
+    bottom: windowHeight * 0.1, // IDEA, suoraa jos tähä laittais arvot ja heittäis appstyles komponentille ? 
     right: windowWidth * 0.2 - 5,
     marginBottom: 10,
   },
