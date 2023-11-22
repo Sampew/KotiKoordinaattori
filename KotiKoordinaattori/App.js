@@ -1,4 +1,5 @@
 import React from 'react';
+import { Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './screens/HomeScreen';
@@ -8,6 +9,7 @@ import PyykkiScreen from './screens/PyykkiScreen';
 import VahinkoIlmoitusScreen from './screens/VahinkoIlmoitusScreen';
 import SahkoScreen from './screens/SahkoScreen';
 
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -15,16 +17,27 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="KotiKoordinaattori">
         <Stack.Screen
-          name="KotiKoordinaattori"
+          name=' '
           component={HomeScreen}
           options={{
             headerStyle: {
               backgroundColor: 'cornflowerblue',
+              headerTitle: null,
             },
-            headerTitleStyle: {
-              fontSize: 24,
-              color: 'black',
-            },
+            headerLeft: () => (
+              <Image
+                source={require('./assets/KotiKoordinaattori_Logo2.png')}
+                style={{ 
+                  width: 120,
+                  height: 100,
+                  marginLeft: 10,
+                  resizeMode: 'contain',
+                  position: 'absolute',
+                  top: -50, 
+                  left: 0,
+                }}
+              />
+            ),
           }}
         />
         <Stack.Screen name="Saunavuoro" component={SaunavuoroScreen} options={{
@@ -43,7 +56,7 @@ export default function App() {
             headerTitleStyle: {
               fontSize: 24,
               color: 'black',
-            },
+            }
           }}/>
         <Stack.Screen name="PyykkiVaraus" component={PyykkiScreen} options={{
             headerStyle: {
