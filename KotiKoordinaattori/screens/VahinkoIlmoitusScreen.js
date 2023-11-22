@@ -73,25 +73,25 @@ export default function VahinkoIlmoitusScreen() {
           <TextInput
             style={styles.inputField}
             onChangeText={(text) => setUserName(text)}
-            placeholder='Name*'
+            placeholder='Nimi*'
           />
           <TextInput
             style={styles.inputField}
             onChangeText={(text) => setUserEmail(text)}
-            placeholder='Email*'
+            placeholder='Sähköposti*'
           />
         </View>
           {/* Input Field for message */}
         <TextInput
           style={ styles.messageInput}
           onChangeText={(text) => setMessage(text)}
-          placeholder='Message*'
+          placeholder='Viesti*'
           multiline={true}
           numberOfLines={6}
         />
         {/* Send button */}
         <TouchableOpacity style={styles.button} onPress={sendEmail}>
-          <Text style={styles.buttonText}>Send</Text>
+          <Text style={styles.buttonText}>Lähetä</Text>
         </TouchableOpacity>
       </SafeAreaView>
     </ScrollView>

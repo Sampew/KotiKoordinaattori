@@ -46,11 +46,12 @@ export default function IlmoitusTauluScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
+        <Text style={styles.taloyhtiotitle}>Taloyhtiömme ilmoittaa</Text>
         {
           messages.map((message) => (
             <View style={styles.message} key={message.id}>
-              <Text style = {styles.messageInfo}>{message.created}</Text>
-              <Text>{message.text}</Text>
+              <Text style={styles.messageCreated}>{message.created}</Text>
+              <Text style = {styles.messageInfo}>{message.text}</Text>
             </View>
           ))
         }

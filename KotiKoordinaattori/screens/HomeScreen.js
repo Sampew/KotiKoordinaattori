@@ -101,40 +101,35 @@ export default function HomeScreen() {
   );
 }
 
-//miksi pitää mitata width ja height näin ? 
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'lightgray',
+    padding: 10,
   },
   mainContent: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  buttonGroup: {
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    height: windowHeight * 0.4,
+  welcomeText: {
+    fontSize: 24,
+    color: 'cornflowerblue',
+    marginBottom: 50,
+    marginTop: 0,
   },
   buttonRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    margin: 5,
-  },
-  welcomeText: {
-    fontSize: 24,
-    color: 'cornflowerblue',
-    bottom: windowHeight * 0.1,
+    marginVertical: 5,
+    marginBottom: 20,
   },
   customButton: {
     backgroundColor: 'cornflowerblue',
-    width: windowWidth * 0.4,
+    width: 190,
     height: 40,
     borderRadius: 5,
     marginRight: 10,
@@ -148,11 +143,15 @@ const styles = StyleSheet.create({
   varausText: {
     fontSize: 24,
     color: 'black',
-    bottom: windowHeight * 0.1, // IDEA, suoraa jos tähä laittais arvot ja heittäis appstyles komponentille ? 
-    right: windowWidth * 0.2 - 5,
-    marginBottom: 10,
+    marginBottom: 20,
+    marginTop: 10,
   },
-
+  reservationItem: {
+    backgroundColor: 'lightgray',
+    borderRadius: 5,
+    marginBottom: 10,
+    padding: 0,
+  },
   reservationText: {
     backgroundColor: 'white',
     padding: 10,
@@ -163,11 +162,6 @@ const styles = StyleSheet.create({
   noReservationsText: {
     fontSize: 16,
     color: 'red',
-
-  },
-  reservationItem: {
-    backgroundColor: 'lightgray',
-    borderRadius: 5,
     marginBottom: 10,
   },
 });
