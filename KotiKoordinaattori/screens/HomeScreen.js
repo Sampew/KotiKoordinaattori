@@ -51,7 +51,7 @@ export default function HomeScreen() {
   };
 
   const sahkoScreen = () => {
-    navigation.navigate('PorssiSahko');
+    navigation.navigate('PörssiSähkö');
   };
 
   return (

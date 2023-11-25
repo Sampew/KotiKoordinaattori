@@ -76,7 +76,7 @@ export default function App() {
               color: 'black',
             },
           }}/>
-          <Stack.Screen name="PorssiSahko" component={SahkoScreen} options={{
+          <Stack.Screen name="PörssiSähkö" component={SahkoScreen} options={{
             headerStyle: {
               backgroundColor: 'cornflowerblue',
             },
