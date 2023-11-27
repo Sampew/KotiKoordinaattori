@@ -120,7 +120,7 @@ const handleDayPress = (day) => {
 
 return (
   <View style={styles.container}>
-    <Text style={styles.title}>Sauna Screen</Text>
+    <Text style={styles.title}>Varauskalenteri</Text>
     <View style={styles.content}>
       <Calendar onDayPress={handleDayPress} markedDates={reservedDates} />
       {selectedDate && (

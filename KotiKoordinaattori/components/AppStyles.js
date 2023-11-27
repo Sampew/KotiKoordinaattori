@@ -8,14 +8,14 @@ const styles = StyleSheet.create({
   //TODO muokkaa kaikki sopiviksi, duplicate stylet poistettu
     
     title: {
-      fontSize: 24,
+      fontSize: 20,
       fontWeight: 'bold',
       marginBottom: 20,
       alignSelf:"center"
     },
     taloyhtiotitle: {
       marginTop: 20,
-      fontSize: 22,
+      fontSize: 20,
       fontWeight: 'bold',
       marginBottom: 20,
       alignSelf:"center"
