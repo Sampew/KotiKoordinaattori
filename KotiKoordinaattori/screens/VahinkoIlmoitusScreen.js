@@ -1,9 +1,9 @@
-import React, {useState } from 'react';
+import React, {useRef, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import {Alert,TouchableOpacity, SafeAreaView, TextInput,View, Text, Keyboard, ScrollView } from 'react-native';
 import emailjs from '@emailjs/browser';
 import styles from '../components/AppStyles';
-
+import CameraComponent from '../components/Camera';
 
 
 export default function VahinkoIlmoitusScreen() {
@@ -48,7 +48,7 @@ export default function VahinkoIlmoitusScreen() {
     const templateParams = {
       user_name,
       user_email,
-      message,
+      message
     };
 
     //Emailjs for sending an email to kotikoordinattoritest@gmail.com
