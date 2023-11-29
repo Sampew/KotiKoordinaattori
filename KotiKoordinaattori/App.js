@@ -9,7 +9,7 @@ import IlmoitusTauluScreen from './screens/IlmoitusTauluScreen';
 import PyykkiScreen from './screens/PyykkiScreen';
 import VahinkoIlmoitusScreen from './screens/VahinkoIlmoitusScreen';
 import SahkoScreen from './screens/SahkoScreen';
-import {menuunfold} from 'antd'
+import CameraScreen from './screens/CameraScreen';
 const Stack = createNativeStackNavigator();
 
 const Drawer = createDrawerNavigator();
@@ -190,6 +190,17 @@ function KotiDrawer() {
             },
             drawerLabel: 'Pörssisähkön hinta',
             headerTitle: 'Pörssisähkön hinta',
+          }}/>
+          <Stack.Screen name="Camera" component={CameraScreen} options={{
+            headerStyle: {
+              backgroundColor: 'cornflowerblue',
+            },
+            headerTitleStyle: {
+              fontSize: 24,
+              color: 'black',
+            },
+            drawerLabel: 'Kamera',
+            headerTitle: 'Kamera',
           }}/>
     </Drawer.Navigator>
   );
