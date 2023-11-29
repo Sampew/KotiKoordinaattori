@@ -39,9 +39,12 @@ export default function SahkoScreen() {
   return (
     <View style={styles.container}>
          
-      <Text style={[styles.message, { color: getPriceColor(currentPrice) }]}>
-        Tämänhetkinen hinta: {currentPrice} snt / kWh (sis. alv)
-      </Text>
+         <Text style={styles.message}>
+  Tämänhetkinen hinta:
+  <Text style={{ color: getPriceColor(currentPrice) }}>
+    {currentPrice} snt / kWh (sis. alv)
+  </Text>
+</Text>
       <ScrollView>
   {hourlyPrices.map((priceEntry, index) => (
     <View key={index} style={styles.row}>
