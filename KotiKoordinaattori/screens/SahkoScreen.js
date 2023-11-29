@@ -1,37 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import styles from '../components/AppStyles';
 import fetch from 'node-fetch';
 
 export default function SahkoScreen() {
   const LATEST_PRICES_ENDPOINT = 'https://api.porssisahko.net/v1/latest-prices.json';
-  const [price, setPrice] = useState(null);
+  const [currentPrice, setCurrentPrice] = useState(null);
+  const [hourlyPrices, setHourlyPrices] = useState([]);
 
   async function fetchLatestPriceData() {
     const response = await fetch(LATEST_PRICES_ENDPOINT);
     return response.json();
   }
-  
-
-  function getPriceForDate(date, prices) {
-    const matchingPriceEntry = prices.find(
-      (price) => new Date(price.startDate) <= date && new Date(price.endDate) > date
-    );
-
-    if (!matchingPriceEntry) {
-      throw 'Price for the requested date is missing';
-    }
-
-    return matchingPriceEntry.price;
-  }
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const { prices } = await fetchLatestPriceData();
+        const data = await fetchLatestPriceData();
         const now = new Date();
-        const currentPrice = getPriceForDate(now, prices);
-        setPrice(currentPrice);
+        const currentHourPrice = data.prices.find(
+          (price) => new Date(price.startDate) <= now && new Date(price.endDate) > now
+        );
+
+        setCurrentPrice(currentHourPrice ? currentHourPrice.price : 'Ei saatavilla');
+        setHourlyPrices(data.prices);
       } catch (e) {
         console.error(`Hinnan haku epäonnistui, syy: ${e}`);
       }
@@ -40,10 +32,26 @@ export default function SahkoScreen() {
     fetchData();
   }, []);
 
+  const getPriceColor = (price) => {
+    return price > 8 ? 'red' : 'green'; //8snt KWH noin saa kiinteitä sähkösopimuksia
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.messageInfo}>Tervetuloa PörssiSähkö -sivulle!</Text>
-      {price && <Text style={styles.message}>Hinta nyt: {price} snt / kWh (sis. alv)</Text>}
+      <Text style={styles.text}>Tervetuloa PörssiSähkö -sivulle!</Text>
+      <Text style={[styles.message, { color: getPriceColor(currentPrice) }]}>
+        Tämänhetkinen hinta: {currentPrice} snt / kWh (sis. alv)
+      </Text>
+      <ScrollView>
+        {hourlyPrices.map((priceEntry, index) => (
+          <Text 
+            key={index} 
+            style={[styles.messageInfo, { color: getPriceColor(priceEntry.price) }]}
+          >
+            {new Date(priceEntry.startDate).toLocaleTimeString()} - {priceEntry.price} snt / kWh
+          </Text>
+        ))}
+      </ScrollView>
     </View>
   );
 }
