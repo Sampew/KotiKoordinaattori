@@ -53,6 +53,10 @@ export default function HomeScreen() {
   const sahkoScreen = () => {
     navigation.navigate('PörssiSähkö');
   };
+  
+  const cameraScreen = () => {
+    navigation.navigate('Camera')
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -80,6 +84,10 @@ export default function HomeScreen() {
           <TouchableOpacity style={styles.customButton} onPress={sahkoScreen}>
               <Text style={styles.buttonText}>PÖRSSISÄHKÖN HINTA</Text>
             </TouchableOpacity>
+            <TouchableOpacity style={styles.customButton} onPress={cameraScreen}>
+              <Text style={styles.buttonText}>KAMERA</Text>
+            </TouchableOpacity>
+
           </View>
         </View>
         <Text style={styles.varausText}>Tulevat varaukset:</Text>
