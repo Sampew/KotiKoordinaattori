@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { Camera } from 'expo-camera';
+import styles from '../components/AppStyles';
 
 
 const CameraComponent = ({ isVisible, onCapture, onClose }) => {
@@ -36,33 +37,13 @@ const CameraComponent = ({ isVisible, onCapture, onClose }) => {
     <View style={styles.container}>
       <Camera style={styles.camera} ref={cameraRef} />
       <TouchableOpacity style={styles.captureButton} onPress={takePicture}>
-        <Text style={styles.buttonText}>Ota kuva</Text>
+        <Text style={styles.cameraText}>Ota kuva</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.captureButton} onPress={onClose}>
-        <Text style={styles.buttonText}>Sulje</Text>
+        <Text style={styles.cameraText}>Sulje</Text>
       </TouchableOpacity>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  camera: {
-    flex: 1,
-  },
-  captureButton: {
-    alignSelf: 'center',
-    backgroundColor: '#fff',
-    borderRadius: 5,
-    padding: 10,
-    margin: 20,
-  },
-  buttonText: {
-    fontSize: 16,
-    color: '#000',
-  },
-});
 
 export default CameraComponent;

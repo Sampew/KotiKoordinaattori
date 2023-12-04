@@ -4,9 +4,7 @@ import Constants from 'expo-constants';
 
 
 const styles = StyleSheet.create({
-    
-  //TODO muokkaa kaikki sopiviksi, duplicate stylet poistettu
-    
+
     title: {
       fontSize: 20,
       fontWeight: 'bold',
@@ -138,10 +136,81 @@ const styles = StyleSheet.create({
       color: 'white',
       fontSize: 16,
       },
-      container: {
+    container: {
         flex: 1,
         backgroundColor: 'lightgray',
         padding: 10,
+      },
+    mainContent: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      },
+    welcomeText: {
+      fontSize: 24,
+      alignItems: 'center',
+      justifyContent: 'center',
+      color: 'cornflowerblue',
+      marginBottom: 10,
+      marginTop: 0,
+      },
+    buttonRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginVertical: 5,
+      marginBottom: 20,
+      },
+    customButton: {
+      backgroundColor: 'cornflowerblue',
+      width: 150,
+      height: 50,
+      borderRadius: 5,
+      marginRight: 10,
+      alignItems: 'center',
+      justifyContent: 'center',
+      },
+    buttonText: {
+      color: 'white',
+      fontWeight: 'bold',
+      },
+    varausText: {
+      fontSize: 24,
+      color: 'black',
+      marginBottom: 20,
+      marginTop: 10,
+      },
+    reservationItem: {
+      backgroundColor: 'lightgray',
+      borderRadius: 5,
+      marginBottom: 10,
+      padding: 0,
+      },
+    reservationText: {
+      backgroundColor: 'white',
+      padding: 10,
+      marginVertical: 5,
+      fontSize: 16,
+      color: 'black',
+      },
+    noReservationsText: {
+      fontSize: 16,
+      color: 'red',
+      marginBottom: 10,
+      },
+    camera: {
+      flex: 1,
+      },
+    captureButton: {
+      alignSelf: 'center',
+      backgroundColor: '#fff',
+      borderRadius: 5,
+      padding: 10,
+      margin: 20,
+      },
+    cameraText: {
+      fontSize: 16,
+      color: '#000',
       },
   })
 
