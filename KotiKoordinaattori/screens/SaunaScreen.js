@@ -18,36 +18,45 @@ export default function SaunaScreen() {
   const [getType, setType] = useState([]);
   const [getTypeNro, setTypeNro] = useState([]);
 
-  const fetchAvailableDates = async () => {
+  const fetchAvailableDates  = async () => {
     try {
       const reservedDatesData = {};
       const availableReservationsCollection = collection(firestore, 'availableSaunaReservations');
       const availableReservationsQuery = await getDocs(availableReservationsCollection);
-      const localFullInfo = []; 
-
+      const localFullInfo = [];
+      const currentDate = new Date();
+  
       availableReservationsQuery.forEach((doc) => {
         const data = doc.id;
         const parts = data.split(' ');
         const date = parts[0];
         const type = parts[2];
         const typeNro = parts[3];
-        setType(type)
-        setTypeNro(typeNro)
-        if (!reservedDatesData[date]) {
-          reservedDatesData[date] = {
-            marked: true,
-            dotColor: 'green',
-          };
+  
+        setType(type);
+        setTypeNro(typeNro);
+  
+        const dateParts = date.split('-');
+        const reservationDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
+  
+        if (reservationDate >= currentDate) {
+          if (!reservedDatesData[date]) {
+            reservedDatesData[date] = {
+              marked: true,
+              dotColor: 'green',
+            };
+          }
+          localFullInfo.push(data);
         }
-        localFullInfo.push(data);
       });
-
-      setFullInfo(localFullInfo); 
+  
+      setFullInfo(localFullInfo);
       setReservedDates(reservedDatesData);
     } catch (error) {
       console.error('Error fetching:', error);
     }
   };
+  
   useEffect(() => {
     fetchAvailableDates();
   }, []);
