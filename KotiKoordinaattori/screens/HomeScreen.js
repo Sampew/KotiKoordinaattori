@@ -1,7 +1,7 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
 import {View, Text, StyleSheet, StatusBar, SafeAreaView, TouchableOpacity, Dimensions, ActivityIndicator} from 'react-native';
-import { getDocs, collection } from 'firebase/firestore';
+import { getDocs, collection,onSnapshot  } from 'firebase/firestore';
 import { firestore } from '../Firebase/Config';
 import styles from '../components/AppStyles';
 
@@ -11,6 +11,25 @@ export default function HomeScreen() {
   const { confirmedReservations } = route.params || { confirmedReservations: [] };
   const [reservations, setReservations] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const reservationsCollection = collection(firestore, 'reservations');
+
+    // Fetch initial reservations
+    fetchReservations();
+
+    // Set up real-time listener for reservation updates
+    const unsubscribe = onSnapshot(reservationsCollection, (querySnapshot) => {
+      const updatedReservations = [];
+      querySnapshot.forEach((doc) => {
+        const data = doc.id;
+        updatedReservations.push(data || []);
+      });
+      setReservations(updatedReservations);
+    });
+
+    return () => unsubscribe();
+  }, [confirmedReservations]);
 
   const fetchReservations = async () => {
     try {

@@ -1,19 +1,16 @@
+
 import { initializeApp } from "firebase/app";
-import {
-  getFirestore, 
+import {getFirestore, 
   collection, 
   addDoc, 
   serverTimestamp, 
-  querySnapshot,
+  deleteDoc,
   getDoc,
-  query, 
-  onSnapshot, 
-  orderBy, 
-  deleteDoc, 
-  doc, 
-  getDocs, 
-  setDoc, 
-  updateDoc 
+  getDocs,
+  updateDoc,
+  doc,
+  setDoc,
+  onSnapshot 
 } from 'firebase/firestore';
 
 const firebaseConfig = {
@@ -38,12 +35,10 @@ export {
     serverTimestamp,
     MESSAGES,
     getDoc,
-    query, 
-    onSnapshot, 
-    orderBy, 
-    deleteDoc, 
-    doc,
     getDocs,
+    updateDoc,
+    deleteDoc,
+    doc,
     setDoc,
-    updateDoc
+    onSnapshot 
 };
