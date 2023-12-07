@@ -199,8 +199,8 @@ function KotiDrawer() {
               fontSize: 24,
               color: 'black',
             },
-            drawerLabel: 'Kamera',
-            headerTitle: 'Kamera',
+            drawerLabel: 'QR-lukija',
+            headerTitle: 'QR-lukija',
           }}/>
     </Drawer.Navigator>
   );

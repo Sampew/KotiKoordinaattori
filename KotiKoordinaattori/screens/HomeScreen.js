@@ -110,7 +110,7 @@ export default function HomeScreen() {
               <Text style={styles.buttonText}>HINTA</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.customButton} onPress={cameraScreen}>
-              <Text style={styles.buttonText}>KAMERA</Text>
+              <Text style={styles.buttonText}>QR-lukija</Text>
             </TouchableOpacity>
 
           </View>

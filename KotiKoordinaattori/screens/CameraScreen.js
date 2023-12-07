@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import CameraComponent from '../components/Camera';
-import { TouchableOpacity, Text } from 'react-native'; 
+import { TouchableOpacity, Text, View } from 'react-native'; 
 import styles from '../components/AppStyles';
 
 const CameraScreen = ({ onPhotoTaken }) => {
@@ -20,8 +20,8 @@ const CameraScreen = ({ onPhotoTaken }) => {
   };
 
   return (
-    <>
-    <Text style={styles.title}>Tämän kameran toimintatarkoitus hämmentää monia</Text>
+    <View style={styles.container}>
+    <Text style={styles.title}>Lue saamasi QR-koodi</Text>
       {isCameraVisible && (
         <CameraComponent
           isVisible={isCameraVisible}
@@ -31,10 +31,10 @@ const CameraScreen = ({ onPhotoTaken }) => {
       )}
       {!isCameraVisible && (
         <TouchableOpacity style={styles.button} onPress={openCamera}>
-        <Text style={styles.buttonText}>Avaa</Text>
+        <Text style={styles.buttonText}>Avaa lukija</Text>
       </TouchableOpacity>
       )}
-    </>
+    </View>
   );
 };
 
