@@ -35,7 +35,7 @@ export default function SahkoScreen() {
   const getPriceColor = (price) => {
     return price > 8 ? 'red' : 'green'; //8snt KWH noin saa kiinteitä sähkösopimuksia
   };
-//<Text style={styles.text}>Tervetuloa PörssiSähkö -sivulle!</Text>   41 rivi
+
   return (
     <View style={styles.container}>
          
