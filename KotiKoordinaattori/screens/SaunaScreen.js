@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Alert } from "react-native";
 import CheckBox from "expo-checkbox";
 import { Calendar } from "react-native-calendars";
 import {
@@ -133,10 +133,10 @@ export default function SaunaScreen() {
       ]);
       setSelectedReservations([]);
 
-      alert("Vuoro varattu");
+      Alert.alert("Hienoa", "Vuoro varattu");
       navigation.navigate("KotiKoordinaattori", { confirmedReservations });
     } else {
-      alert("Ei vapaita vuoroja kyseiselle päivälle.");
+      Alert.alert("Virhe", "Ei vapaita vuoroja kyseiselle päivälle.");
     }
   };
 
