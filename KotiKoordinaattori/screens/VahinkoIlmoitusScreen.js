@@ -1,26 +1,32 @@
-import React, {useRef, useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
-import {Alert,TouchableOpacity, SafeAreaView, TextInput,View, Text, Keyboard, ScrollView } from 'react-native';
-import emailjs from '@emailjs/browser';
-import styles from '../components/AppStyles';
-import CameraComponent from '../components/Camera';
-
+import React, { useRef, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import {
+  Alert,
+  TouchableOpacity,
+  SafeAreaView,
+  TextInput,
+  View,
+  Text,
+  ScrollView,
+} from "react-native";
+import emailjs from "@emailjs/browser";
+import styles from "../components/AppStyles";
+import CameraComponent from "../components/Camera";
 
 export default function VahinkoIlmoitusScreen() {
-
-  const [user_name, setUserName] = useState('');
-  const [user_email, setUserEmail] = useState('');
-  const [message, setMessage] = useState('');
+  const [user_name, setUserName] = useState("");
+  const [user_email, setUserEmail] = useState("");
+  const [message, setMessage] = useState("");
   const navigation = useNavigation();
 
   //Navigate to homepage
   const homeScreen = () => {
-    navigation.navigate('KotiKoordinaattori');
+    navigation.navigate("KotiKoordinaattori");
   };
 
   //Alert the user that the mail is sent
   const sendAlert = () => {
-    Alert.alert('Vahinkoilmoitus', 'Lähetetty');
+    Alert.alert("Vahinkoilmoitus", "Lähetetty");
   };
 
   //Function to check that email is correct
@@ -31,16 +37,19 @@ export default function VahinkoIlmoitusScreen() {
 
   //Function to send an email from the contact form
   const sendEmail = () => {
-
     //Check if all boxes are filled
-    if (user_name.trim() === '' || user_email.trim() === '' || message.trim() === '') {
-      Alert.alert('Error', 'Please fill in all the required fields.');
+    if (
+      user_name.trim() === "" ||
+      user_email.trim() === "" ||
+      message.trim() === ""
+    ) {
+      Alert.alert("Error", "Please fill in all the required fields.");
       return;
     }
 
     //Check that email is in correct form
     if (!validateEmail(user_email)) {
-      Alert.alert('Error', 'Please enter a valid email address.');
+      Alert.alert("Error", "Please enter a valid email address.");
       return;
     }
 
@@ -48,11 +57,17 @@ export default function VahinkoIlmoitusScreen() {
     const templateParams = {
       user_name,
       user_email,
-      message
+      message,
     };
 
     //Emailjs for sending an email to kotikoordinattoritest@gmail.com
-    emailjs.send('service_w5y6a0b', 'template_er8elil', templateParams, '9BTlcOOlVqj2oUvST')
+    emailjs
+      .send(
+        "service_w5y6a0b",
+        "template_er8elil",
+        templateParams,
+        "9BTlcOOlVqj2oUvST"
+      )
       .then((result) => {
         console.log(result);
         sendAlert();
@@ -65,7 +80,10 @@ export default function VahinkoIlmoitusScreen() {
 
   return (
     //Scrollview when you press around the keyboard it hides
-    <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
+    <ScrollView
+      contentContainerStyle={styles.container}
+      keyboardShouldPersistTaps="handled"
+    >
       <Text style={styles.title}>Tee vahinkoilmoitus</Text>
       <SafeAreaView style={styles.inputContainer}>
         <View style={styles.inputRow}>
@@ -73,19 +91,19 @@ export default function VahinkoIlmoitusScreen() {
           <TextInput
             style={styles.inputField}
             onChangeText={(text) => setUserName(text)}
-            placeholder='Nimi*'
+            placeholder="Nimi*"
           />
           <TextInput
             style={styles.inputField}
             onChangeText={(text) => setUserEmail(text)}
-            placeholder='Sähköposti*'
+            placeholder="Sähköposti*"
           />
         </View>
-          {/* Input Field for message */}
+        {/* Input Field for message */}
         <TextInput
-          style={ styles.messageInput}
+          style={styles.messageInput}
           onChangeText={(text) => setMessage(text)}
-          placeholder='Viesti*'
+          placeholder="Viesti*"
           multiline={true}
           numberOfLines={6}
         />
@@ -95,8 +113,5 @@ export default function VahinkoIlmoitusScreen() {
         </TouchableOpacity>
       </SafeAreaView>
     </ScrollView>
-
   );
 }
-
-
