@@ -1,19 +1,28 @@
-import { useNavigation, useRoute } from '@react-navigation/native';
-import React, { useState, useEffect } from 'react';
-import {View, Text, StyleSheet, StatusBar, SafeAreaView, TouchableOpacity, Dimensions, ActivityIndicator} from 'react-native';
-import { getDocs, collection,onSnapshot  } from 'firebase/firestore';
-import { firestore } from '../Firebase/Config';
-import styles from '../components/AppStyles';
+import { useNavigation, useRoute } from "@react-navigation/native";
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  StatusBar,
+  SafeAreaView,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
+import { getDocs, collection, onSnapshot } from "firebase/firestore";
+import { firestore } from "../Firebase/Config";
+import styles from "../components/AppStyles";
 
 export default function HomeScreen() {
   const navigation = useNavigation();
   const route = useRoute();
-  const { confirmedReservations } = route.params || { confirmedReservations: [] };
+  const { confirmedReservations } = route.params || {
+    confirmedReservations: [],
+  };
   const [reservations, setReservations] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const reservationsCollection = collection(firestore, 'reservations');
+    const reservationsCollection = collection(firestore, "reservations");
 
     // Fetch initial reservations
     fetchReservations();
@@ -33,7 +42,7 @@ export default function HomeScreen() {
 
   const fetchReservations = async () => {
     try {
-      const reservationsCollection = collection(firestore, 'reservations');
+      const reservationsCollection = collection(firestore, "reservations");
       const reservationsQuery = await getDocs(reservationsCollection);
       const reservationsData = [];
 
@@ -44,7 +53,7 @@ export default function HomeScreen() {
 
       setReservations(reservationsData);
     } catch (error) {
-      console.error('Error fetching reservations:', error);
+      console.error("Error fetching reservations:", error);
     } finally {
       setLoading(false);
     }
@@ -55,28 +64,28 @@ export default function HomeScreen() {
   }, []);
 
   const saunaScreen = () => {
-    navigation.navigate('Saunavuoro');
+    navigation.navigate("Saunavuoro");
   };
 
   const vahinkoScreen = () => {
-    navigation.navigate('VahinkoIlmoitusTaulu');
+    navigation.navigate("VahinkoIlmoitusTaulu");
   };
 
   const pyykkiScreen = () => {
-    navigation.navigate('PyykkiVaraus');
+    navigation.navigate("PyykkiVaraus");
   };
 
   const ilmoitusScreen = () => {
-    navigation.navigate('IlmoitusTaulu');
+    navigation.navigate("IlmoitusTaulu");
   };
 
   const sahkoScreen = () => {
-    navigation.navigate('PörssiSähkö');
+    navigation.navigate("PörssiSähkö");
   };
-  
+
   const cameraScreen = () => {
-    navigation.navigate('Camera')
-  }
+    navigation.navigate("Camera");
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -90,29 +99,40 @@ export default function HomeScreen() {
               <Text style={styles.buttonText}>VARAA</Text>
               <Text style={styles.buttonText}>SAUNAVUORO</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.customButton} onPress={ilmoitusScreen}>
+            <TouchableOpacity
+              style={styles.customButton}
+              onPress={ilmoitusScreen}
+            >
               <Text style={styles.buttonText}>ILMOITUSTAULU</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.buttonRow}>
-            <TouchableOpacity style={styles.customButton} onPress={pyykkiScreen}>
+            <TouchableOpacity
+              style={styles.customButton}
+              onPress={pyykkiScreen}
+            >
               <Text style={styles.buttonText}>VARAA</Text>
               <Text style={styles.buttonText}>PYYKKIVUORO</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.customButton} onPress={vahinkoScreen}>
+            <TouchableOpacity
+              style={styles.customButton}
+              onPress={vahinkoScreen}
+            >
               <Text style={styles.buttonText}>TEE VAHINKO-</Text>
               <Text style={styles.buttonText}>ILMOITUS</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.buttonRow}>
-          <TouchableOpacity style={styles.customButton} onPress={sahkoScreen}>
+            <TouchableOpacity style={styles.customButton} onPress={sahkoScreen}>
               <Text style={styles.buttonText}>PÖRSSISÄHKÖN</Text>
               <Text style={styles.buttonText}>HINTA</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.customButton} onPress={cameraScreen}>
+            <TouchableOpacity
+              style={styles.customButton}
+              onPress={cameraScreen}
+            >
               <Text style={styles.buttonText}>QR-LUKIJA</Text>
             </TouchableOpacity>
-
           </View>
         </View>
         <Text style={styles.varausText}>Tulevat varaukset:</Text>
