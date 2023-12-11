@@ -43,13 +43,13 @@ export default function VahinkoIlmoitusScreen() {
       user_email.trim() === "" ||
       message.trim() === ""
     ) {
-      Alert.alert("Error", "Please fill in all the required fields.");
+      Alert.alert("Virhe", "Täytä kaikki kentät");
       return;
     }
 
     //Check that email is in correct form
     if (!validateEmail(user_email)) {
-      Alert.alert("Error", "Please enter a valid email address.");
+      Alert.alert("Virhe", "Virheellinen sähköpostiosoite");
       return;
     }
 
