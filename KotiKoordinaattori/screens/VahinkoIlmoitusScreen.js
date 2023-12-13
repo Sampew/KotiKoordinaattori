@@ -11,7 +11,6 @@ import {
 } from "react-native";
 import emailjs from "@emailjs/browser";
 import styles from "../components/AppStyles";
-import CameraComponent from "../components/Camera";
 
 export default function VahinkoIlmoitusScreen() {
   const [user_name, setUserName] = useState("");
